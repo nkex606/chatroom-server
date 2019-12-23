@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chatroom
+  labels:
+    app: chatroom
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chatroom
+  template:
+    metadata:
+      labels:
+        app: chatroom
+    spec:
+      containers:
+      - name: chatroom-server
+        image: john19/chatroom-server
+        env:
+        - name: port
+          value: "8888"
+        ports:
+        - containerPort: 8888
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8888
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8888
+          initialDelaySeconds: 5
+          periodSeconds: 5

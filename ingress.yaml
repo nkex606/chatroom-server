@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: myingress
+  annotations:
+    nginx.org/websocket-services: chatroom
+    nginx.ingress.kubernetes.io/websocket-services: chatroom
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /ws       
+        backend:
+          serviceName: chatroom
+          servicePort: 8888
+
